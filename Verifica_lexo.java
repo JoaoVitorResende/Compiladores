@@ -40,8 +40,8 @@ public class Verifica_lexo {
 	// ----
 
 	// numeral
-	String valor = "";//o que vai imprimir o valor
-	char[] valores = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };//numeros validos
+	String valor = "";// o que vai imprimir o valor
+	char[] valores = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };// numeros validos
 	boolean numeral = false;// variavel de controle
 	boolean real = false;// double
 	// --
@@ -58,14 +58,27 @@ public class Verifica_lexo {
 	// --
 
 	// cadeia
-	String cadeia;
+	String cadeia="";
+	boolean inicia_cadeia = false;
+	int inicio = 1;
 	// ---
-	
+
 	// variavel
-	String variavel ="";
-	boolean ativa_variavel = false;
-	// ---
+	String variavel = "";
 	
+	boolean ativa_variavel = false;
+	
+	char[] letras_maisculas = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
+			'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'W', 'Y', 'Z' };
+	
+	char[] letras_minusculas = new char[] { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+			'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'w', 'y', 'z' };
+
+	boolean letra_aceita = true;
+	
+	int inicio_variavel = 0;
+	// ---
+
 	// ---------------------------------
 
 	int b1 = 0, b2 = 0, b3 = 0;
@@ -210,7 +223,6 @@ public class Verifica_lexo {
 
 						check = buffer_1_vetor[contador_a + 1];
 
-
 						if (check == '=') {
 							token_a = true;
 							to.Token(TipoToken.OpRelMaiorIgual, ">=");
@@ -245,18 +257,21 @@ public class Verifica_lexo {
 							to.Token(TipoToken.OpRelMenor, "<");
 						}
 					}
-					
+
 					Comentario(c);
-					
-					if(!comentario) {
-						Delimitador(c);
-						PalavraReservada(c);
-						Numeral(c);
-						ChecaBoolean(c);
-						Aritimetico(c);
-						
-						if(ativa_variavel) {
-							Variavel(c);
+
+					if (!comentario) {
+						Cadeia(c);
+						if (!inicia_cadeia) {
+							Delimitador(c);
+							PalavraReservada(c);
+							Numeral(c);
+							ChecaBoolean(c);
+							Aritimetico(c);
+
+							if (ativa_variavel) {
+								Variavel(c);
+							}
 						}
 					}
 				}
@@ -288,7 +303,6 @@ public class Verifica_lexo {
 						contador_b++;
 						token_b = true;
 					}
-
 
 					if (c == '(') {
 						contador_b++;
@@ -345,18 +359,21 @@ public class Verifica_lexo {
 							contador_b--;
 						}
 					}
-					
+
 					Comentario(c);
-					
-					if(!comentario) {
-						Delimitador(c);
-						PalavraReservada(c);
-						Numeral(c);
-						ChecaBoolean(c);
-						Aritimetico(c);
-						
-						if(ativa_variavel) {
-							Variavel(c);
+
+					if (!comentario) {
+						Cadeia(c);
+						if (!inicia_cadeia) {
+							Delimitador(c);
+							PalavraReservada(c);
+							Numeral(c);
+							ChecaBoolean(c);
+							Aritimetico(c);
+
+							if (ativa_variavel) {
+								Variavel(c);
+							}
 						}
 					}
 				}
@@ -368,8 +385,8 @@ public class Verifica_lexo {
 	private void PalavraReservada(char ch) { // verifica palavras reservadas
 
 		if (ch == 'D') {
-			
-			if(!andamento) {
+
+			if (!andamento) {
 				contador_reservadas = 11;
 				palavra_reservada = true;
 				palavra_descoberta = false;
@@ -378,83 +395,82 @@ public class Verifica_lexo {
 		}
 
 		if (ch == 'F') {
-			
-			if(!andamento) {
+
+			if (!andamento) {
 				contador_reservadas = 3;
 				palavra_reservada = true;
 				palavra_descoberta = false;
 				andamento = true;
 			}
 		}
-		
-		if(ch == 'V') {
-			if(!andamento) {
+
+		if (ch == 'V') {
+			if (!andamento) {
 				contador_reservadas = 3;
 				palavra_reservada = true;
 				palavra_descoberta = false;
 				andamento = true;
 			}
 		}
-		
-		if(ch == 'A') {
-			
-			if(!andamento) {
+
+		if (ch == 'A') {
+
+			if (!andamento) {
 				contador_reservadas = 9;
 				palavra_reservada = true;
 				palavra_descoberta = false;
 				andamento = true;
 			}
 		}
-		
-		if(ch == 'I') {
-			if(!andamento) {
+
+		if (ch == 'I') {
+			if (!andamento) {
 				contador_reservadas = 6;
 				palavra_reservada = true;
 				palavra_descoberta = false;
 				andamento = true;
 			}
 		}
-		
-		if(ch == 'R') {
-			if(!andamento) {
+
+		if (ch == 'R') {
+			if (!andamento) {
 				contador_reservadas = 4;
 				palavra_reservada = true;
 				palavra_descoberta = false;
 				andamento = true;
 			}
 		}
-		
-		if(ch == 'L') {
-			if(!andamento) {
+
+		if (ch == 'L') {
+			if (!andamento) {
 				contador_reservadas = 3;
 				palavra_reservada = true;
 				palavra_descoberta = false;
 				andamento = true;
 			}
 		}
-		
-		if(ch == 'S') {
-			
-			if(!andamento) {
+
+		if (ch == 'S') {
+
+			if (!andamento) {
 				contador_reservadas = 2;
 				palavra_reservada = true;
 				palavra_descoberta = false;
 				andamento = true;
 			}
 		}
-		
-		if(ch == 'E') {
-			
-			if(!andamento) {
+
+		if (ch == 'E') {
+
+			if (!andamento) {
 				contador_reservadas = 8;
 				palavra_reservada = true;
 				palavra_descoberta = false;
 				andamento = true;
 			}
-			
+
 		}
-		
-		
+
 		if (palavra_reservada) {
 
 			if (contador_reservadas > 0) {
@@ -477,8 +493,9 @@ public class Verifica_lexo {
 					palavra_descoberta = true;
 					contador_reservadas = 0;
 					andamento = false;
+					System.exit(0);
 				}
-				
+
 				if (Verificacao.equals("ALGORITMO")) {
 					to.Token(TipoToken.PCAlgoritmo, "ALG");
 					Verificacao = "";
@@ -487,7 +504,7 @@ public class Verifica_lexo {
 					contador_reservadas = 0;
 					andamento = false;
 				}
-				
+
 				if (Verificacao.equals("VAR")) {
 					to.Token(TipoToken.Var, "Var");
 					Verificacao = "";
@@ -496,9 +513,9 @@ public class Verifica_lexo {
 					ativa_variavel = true;
 					contador_reservadas = 0;
 					andamento = false;
-					
+
 				}
-				
+
 				if (Verificacao.equals("INT")) {
 					to.Token(TipoToken.PCInteiro, "INT");
 					Verificacao = "";
@@ -507,7 +524,7 @@ public class Verifica_lexo {
 					contador_reservadas = 0;
 					andamento = false;
 				}
-				
+
 				if (Verificacao.equals("REAL")) {
 					to.Token(TipoToken.PCReal, "REA");
 					Verificacao = "";
@@ -516,7 +533,7 @@ public class Verifica_lexo {
 					contador_reservadas = 0;
 					andamento = false;
 				}
-				
+
 				if (Verificacao.equals("ATRIBUIR")) {
 					to.Token(TipoToken.PCAtribuir, "ATR");
 					Verificacao = "";
@@ -525,7 +542,7 @@ public class Verifica_lexo {
 					contador_reservadas = 0;
 					andamento = false;
 				}
-				
+
 				if (Verificacao.equals("LER")) {
 					to.Token(TipoToken.PCLer, "LER");
 					Verificacao = "";
@@ -534,7 +551,7 @@ public class Verifica_lexo {
 					contador_reservadas = 0;
 					andamento = false;
 				}
-				
+
 				if (Verificacao.equals("SE")) {
 					to.Token(TipoToken.PCSe, "SE");
 					Verificacao = "";
@@ -543,7 +560,7 @@ public class Verifica_lexo {
 					contador_reservadas = 0;
 					andamento = false;
 				}
-				
+
 				if (Verificacao.equals("ENTAO")) {
 					to.Token(TipoToken.PCEntao, "ENT");
 					Verificacao = "";
@@ -552,7 +569,7 @@ public class Verifica_lexo {
 					contador_reservadas = 0;
 					andamento = false;
 				}
-				
+
 				if (Verificacao.equals("A ")) {
 					to.Token(TipoToken.PCA, "A");
 					Verificacao = "";
@@ -561,7 +578,7 @@ public class Verifica_lexo {
 					contador_reservadas = 0;
 					andamento = false;
 				}
-				
+
 				if (Verificacao.equals("ENQUANTO")) {
 					to.Token(TipoToken.PCEnquanto, "ENQ");
 					Verificacao = "";
@@ -569,9 +586,9 @@ public class Verifica_lexo {
 					palavra_descoberta = true;
 					contador_reservadas = 0;
 					andamento = false;
-					
+
 				}
-				
+
 				if (Verificacao.equals("INICIO")) {
 					to.Token(TipoToken.PCInicio, "INI");
 					Verificacao = "";
@@ -579,7 +596,7 @@ public class Verifica_lexo {
 					palavra_descoberta = true;
 					contador_reservadas = 0;
 					andamento = false;
-					
+
 				}
 				contador_reservadas--;
 			}
@@ -603,23 +620,14 @@ public class Verifica_lexo {
 				real = true;
 				valor += ch;
 				numeral = true;
-				
-				/*
-				if(vebf1) {
-					token_a = true;
-					contador_a++;
-				}else {
-					token_b = true;
-					contador_b++;
-				}
-				*/
+
 			}
 
 		} else {
 			valor += ch;
 			if (ch == ' ' && valor != "" || ch == '\n' || ch == '\r') {
 				numeral = false;
-				// real 
+				// real
 				if (real) {
 					to.Token(TipoToken.NumReal, valor);
 					valor = "";
@@ -627,17 +635,7 @@ public class Verifica_lexo {
 					to.Token(TipoToken.PCInteiro, valor);
 					valor = "";
 				}
-				//---
-				/*
-				// retorna ajeita fila
-				if(vebf1) {
-					token_a = true;
-					contador_a++;
-				}else {
-					token_b = true;
-					contador_b++;
-				}
-				//-----*/
+
 			}
 		}
 
@@ -661,14 +659,6 @@ public class Verifica_lexo {
 			inicia_boolena = true;
 			boleana += bo_ch;
 			contador_boleana = 1;
-			/*
-			if(vebf1) {
-				token_a = true;
-				contador_a++;
-			}else {
-				token_b = true;
-				contador_b++;
-			}*/
 
 		}
 
@@ -676,80 +666,40 @@ public class Verifica_lexo {
 			inicia_boolena = true;
 			boleana += bo_ch;
 			contador_boleana = 2;
-			/*
-			if(vebf1) {
-				token_a = true;
-				contador_a++;
-			}else {
-				token_b = true;
-				contador_b++;
-			}
-			*/
+
 		}
 
 		if (inicia_boolena) {
 
 			if (bo_ch == 'U') {
 				boleana += bo_ch;
-				/*
-				if(vebf1) {
-					token_a = true;
-					contador_a++;
-				}else {
-					token_b = true;
-					contador_b++;
-				}
-				*/
+
 			}
 
 			if (boleana.equals("OU")) {
 				inicia_boolena = false;
 				to.Token(TipoToken.OpBoolOU, boleana);
 				boleana = "";
-				/*
-				if(vebf1) {
-					token_a = true;
-					contador_a++;
-				}else {
-					token_b = true;
-					contador_b++;
-				}
-				*/
+
 			}
 
 			if (bo_ch == '\r' && boleana.equals("E") || bo_ch == '\n' && boleana.equals("E")) {
 				to.Token(TipoToken.OpBoolE, "E");
 				inicia_boolena = false;
 				boleana = "";
-				
+
 				Verificacao = "";
 				palavra_reservada = false;
 				palavra_descoberta = true;
 				contador_reservadas = 0;
 				andamento = false;
-				/*
-				if(vebf1) {
-					token_a = true;
-					contador_a++;
-				}else {
-					token_b = true;
-					contador_b++;
-				}
-				*/
+
 			}
 
 			if (inicia_boolena && contador_boleana == 0) {
 				inicia_boolena = false;
 				boleana = "";
-				/*
-				if(vebf1) {
-					token_a = true;
-					contador_a++;
-				}else {
-					token_b = true;
-					contador_b++;
-				}
-				*/
+
 			}
 
 			contador_boleana--;
@@ -757,67 +707,55 @@ public class Verifica_lexo {
 	}
 
 	private void Comentario(char co_ch) {
-		
+
 		if (co_ch == '%') {
 			comentario = true;
-			/*
-			if(vebf1) {
-				token_a = true;
-				contador_a++;
-			}else {
-				token_b = true;
-				contador_b++;
-			}*/
+
 		}
-		
+
 		if (co_ch == '\n' || co_ch == '\r' || co_ch == ' ') {
 			comentario = false;
-			/*
-			if(vebf1) {
-				token_a = true;
-				contador_a++;
-			}else {
-				token_b = true;
-				contador_b++;
-			}*/
+
 		}
 	}
 
-	private void Variavel(char va_ch) {// problema de pegar um antes 
-		
-		if(va_ch != '\n') {
-			variavel += va_ch;
+	private void Variavel(char va_ch) {
+
+		if (va_ch != '\n') {
 			
-			if(vebf1) {
-				token_a = true;
-				contador_a++;
+			if(inicio_variavel == 1) {
+				ChecaLetra(va_ch);
 			}else {
-				token_b = true;
-				contador_b++;
+				inicio_variavel++;
 			}
 			
-		}else {
-			System.out.print("nome da variavel "+variavel);// printa na mesma linha do var com um espaço e o nome da variavel
-			ativa_variavel = false;
+			if (!letra_aceita) {
+				System.exit(0);
+			}
 			
-			if(vebf1) {
+		} else {
+			System.out.println("nome da variavel " + variavel);
+
+			ativa_variavel = false;
+
+			if (vebf1) {
 				token_a = true;
 				contador_a++;
-			}else {
+			} else {
 				token_b = true;
 				contador_b++;
 			}
 		}
-		
+
 	}
-	
+
 	private void Delimitador(char dl_ch) {
 		if (dl_ch == ':') {
 			to.Token(TipoToken.Delim, ":");
-			if(vebf1) {
+			if (vebf1) {
 				token_a = true;
 				contador_a++;
-			}else {
+			} else {
 				token_b = true;
 				contador_b++;
 			}
@@ -825,14 +763,14 @@ public class Verifica_lexo {
 	}
 
 	private void Aritimetico(char ar_ch) {
-		
+
 		if (ar_ch == '*') {
 			to.Token(TipoToken.OpAritMult, "*");
-			
-			if(vebf1) {
+
+			if (vebf1) {
 				token_a = true;
 				contador_a++;
-			}else {
+			} else {
 				token_b = true;
 				contador_b++;
 			}
@@ -840,11 +778,11 @@ public class Verifica_lexo {
 
 		if (ar_ch == '/') {
 			to.Token(TipoToken.OpAritDiv, "/");
-			
-			if(vebf1) {
+
+			if (vebf1) {
 				token_a = true;
 				contador_a++;
-			}else {
+			} else {
 				token_b = true;
 				contador_b++;
 			}
@@ -852,11 +790,11 @@ public class Verifica_lexo {
 
 		if (ar_ch == '+') {
 			to.Token(TipoToken.OpAritSoma, "+");
-			
-			if(vebf1) {
+
+			if (vebf1) {
 				token_a = true;
 				contador_a++;
-			}else {
+			} else {
 				token_b = true;
 				contador_b++;
 			}
@@ -864,16 +802,80 @@ public class Verifica_lexo {
 
 		if (ar_ch == '-') {
 			to.Token(TipoToken.OpAritSub, "-");
-			
-			if(vebf1) {
+
+			if (vebf1) {
 				token_a = true;
 				contador_a++;
-			}else {
+			} else {
 				token_b = true;
 				contador_b++;
 			}
 		}
-		
+
 	}
 
+	private void Cadeia(char ca_ch) {
+
+		if (ca_ch == '\'') {
+			inicia_cadeia = true;
+		}
+		if (inicia_cadeia) {
+			cadeia += ca_ch;
+			if (inicio == 1) {
+				inicio = 0;
+			} else {
+				if (ca_ch == '\'') {
+					inicia_cadeia = false;
+					to.Token(TipoToken.Cadeia, cadeia);
+					inicio = 1;
+					cadeia = "";
+				}
+			}
+		}
+	}
+
+	private void ChecaLetra(char ch) {//faz as verificações
+
+		letra_aceita = false;
+
+		for (int i = 0; i < letras_maisculas.length; i++) {
+
+			if (ch == letras_maisculas[i]) {
+				variavel += ch;
+				letra_aceita = true;
+				
+			} else {
+
+				if (ch == letras_minusculas[i]) {
+					variavel += ch;
+					letra_aceita = true;
+				} else {
+					
+					if (ch == '\r') {
+						letra_aceita = true;
+					}
+					if (ch == '\n') {
+						letra_aceita = true;
+					}
+					if (ch == ' ') {
+						letra_aceita = true;
+					}
+				}
+			}
+		}
+
+		if (!letra_aceita) {
+			for (int j = 0; j < valores.length; j++) {
+
+				if (ch == valores[j]) {
+					variavel += ch;
+				} else {
+					variavel = "";
+					System.err.println(
+							"Essa letra " + ch + " não faz parte do Léxico desse código por favor remover o mesmo");
+					break;
+				}
+			}
+		}
+	}
 }
